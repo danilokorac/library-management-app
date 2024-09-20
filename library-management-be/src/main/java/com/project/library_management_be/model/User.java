@@ -19,7 +19,10 @@ public class User {
     private String lastName;
     private String email;
     @Enumerated(EnumType.STRING)
+    private Role role;
+    @Enumerated(EnumType.STRING)
     private MembershipType membershipType;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Borrowing> borrowedBooks;
