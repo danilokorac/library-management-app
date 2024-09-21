@@ -14,6 +14,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/getUserById")
+    public ResponseEntity<User> getUserById(@RequestParam(name = "id") Long userId) {
+        User user = userService.getUserById(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
     @PostMapping("/addUser")
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
         User newUser = userService.addNewUser(user);
@@ -32,6 +37,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PostMapping("/addUserMembership")
     public ResponseEntity<User> addUserMembership(@RequestParam(name = "id") Long userId,
                                                   @RequestParam(name = "membership_type") MembershipType membershipType) {
         User updatedUser = userService.addUserMembership(userId, membershipType);
@@ -44,7 +50,7 @@ public class UserController {
         User updatedUser = userService.updateUserMemberShip(userId, membershipType);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
-
+    @DeleteMapping("/deleteUserMembership")
     public ResponseEntity<User> deleteUserMembership(@RequestParam(name = "id") Long userId) {
         User updatedUser = userService.deleteUserMembership(userId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);

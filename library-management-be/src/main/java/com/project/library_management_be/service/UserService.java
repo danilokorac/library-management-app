@@ -15,6 +15,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User not found!"));
+    }
     public User addNewUser(User user) {
         return userRepository.save(user);
     }
