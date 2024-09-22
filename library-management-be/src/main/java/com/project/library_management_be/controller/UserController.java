@@ -6,6 +6,7 @@ import com.project.library_management_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/getUserById")
+    @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<User> getUserById(@RequestParam(name = "id") Long userId) {
         User user = userService.getUserById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -38,6 +40,7 @@ public class UserController {
     }
 
     @PostMapping("/addUserMembership")
+    @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<User> addUserMembership(@RequestParam(name = "id") Long userId,
                                                   @RequestParam(name = "membership_type") MembershipType membershipType) {
         User updatedUser = userService.addUserMembership(userId, membershipType);
@@ -45,12 +48,14 @@ public class UserController {
     }
 
     @PatchMapping("/updateUserMembership")
+    @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<User> updateUserMembership(@RequestParam(name = "id") Long userId,
                                                      @RequestParam(name = "membership_type") MembershipType membershipType) {
         User updatedUser = userService.updateUserMemberShip(userId, membershipType);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
     @DeleteMapping("/deleteUserMembership")
+    @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<User> deleteUserMembership(@RequestParam(name = "id") Long userId) {
         User updatedUser = userService.deleteUserMembership(userId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
