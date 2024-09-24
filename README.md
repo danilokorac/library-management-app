@@ -35,7 +35,7 @@ To run this project, you will need the following:
    cd <project-directory>
    
 2. **Check Java and Maven Versions**: 
-   - Ensure that you have Java 20 and Maven 3.8.6 installed. You can check the versions using**:
+   - Ensure that you have Java 20 and Maven 3.8.6 installed. You can check the versions using:
    ```bash
    java -version
    mvn -version
@@ -108,12 +108,14 @@ Use Postman to test the application. You will find a Postman collection file inc
 
 4. **Use the Token**: Set the authorization type to **Bearer Token** in Postman and paste the copied token into the Authorization header for all subsequent requests. 
 
-*Important: Most endpoints are restricted and can only be accessed by admin or employee users. To test these endpoints, log in as the admin user (see section 7, where the admin user is defined).*
+*Important: Most endpoints are restricted and can only be accessed by admin/employee users (as excpected behavoir). To test these endpoints, log in as the admin user (see section 7, where the admin user is defined).*
 <div align="center">
    
- ![Postman Collection Import Example](https://github.com/user-attachments/assets/4d81d861-937b-41c7-8abe-40acb5c05e25)
+ ![Postman Collection Import Example](https://github.com/user-attachments/assets/d2bad825-10d6-474a-8ea9-a2f194b9b68f)
+
  *This is how the Postman collection should look when imported.*
- 
+
+ ## For any additional questions or clarifications, feel free to reach out to me.
 </div>
 
-For any additional questions or clarifications, feel free to reach out to me.
+
