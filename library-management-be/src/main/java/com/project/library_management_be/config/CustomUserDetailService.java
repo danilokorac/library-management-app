@@ -1,17 +1,22 @@
-package com.project.library_management_be.security;
+package com.project.library_management_be.config;
 
 import com.project.library_management_be.model.User;
 import com.project.library_management_be.repository.UserRepository;
-import com.project.library_management_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
-public class CustomUserDetailService implements UserDetailsService {
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
+@Component
+public class CustomUserDetailService implements UserDetailsService {
 
     private UserRepository userRepository;
 
@@ -24,11 +29,14 @@ public class CustomUserDetailService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles(user.getRole().name())
-                .build();
+        Set<GrantedAuthority> authorities = Collections.singleton(
+                new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+
+        return new org.springframework.security.core.userdetails.User(
+                username,
+                user.getPassword(),
+                authorities
+        );
     }
 
 }

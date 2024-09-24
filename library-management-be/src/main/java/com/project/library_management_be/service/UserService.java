@@ -1,5 +1,7 @@
 package com.project.library_management_be.service;
 
+import com.project.library_management_be.config.JwtTokenProvider;
+import com.project.library_management_be.dto.LoginDTO;
 import com.project.library_management_be.dto.RegisterDTO;
 import com.project.library_management_be.dto.UserDTO;
 import com.project.library_management_be.model.MembershipType;
@@ -8,25 +10,37 @@ import com.project.library_management_be.model.User;
 import com.project.library_management_be.repository.UserRepository;
 import com.project.library_management_be.util.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Member;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-    private  UserRepository userRepository;
-    private  PasswordEncoder passwordEncoder;
-    private UserMapper userMapper;
+    private final  UserRepository userRepository;
+    private final  PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       UserMapper userMapper,
+                       AuthenticationManager authenticationManager,
+                       JwtTokenProvider jwtTokenProvider) {
+
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -105,5 +119,21 @@ public class UserService {
 
         return userRepository.save(userToRegister);
 
+    }
+
+    public String login(LoginDTO loginDTO) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDTO.getUsername(),
+                        loginDTO.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        return token;
     }
 }

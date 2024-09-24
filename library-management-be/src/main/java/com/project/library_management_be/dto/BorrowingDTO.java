@@ -1,8 +1,5 @@
 package com.project.library_management_be.dto;
 
-import com.project.library_management_be.model.Book;
-import com.project.library_management_be.model.User;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;

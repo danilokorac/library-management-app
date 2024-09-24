@@ -15,15 +15,19 @@ import java.util.stream.Collectors;
 @Service
 public class BorrowingService {
 
-    @Autowired
-    private BorrowingRepository borrowingRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BookRepository bookRepository;
+
+    private final BorrowingRepository borrowingRepository;
+    private final UserRepository userRepository;
+    private final BookRepository bookRepository;
+    private final BorrowingMapper borrowingMapper;
 
     @Autowired
-    private BorrowingMapper borrowingMapper;
+    public BorrowingService(BorrowingRepository borrowingRepository, UserRepository userRepository, BookRepository bookRepository, BorrowingMapper borrowingMapper) {
+        this.borrowingRepository = borrowingRepository;
+        this.userRepository = userRepository;
+        this.bookRepository = bookRepository;
+        this.borrowingMapper = borrowingMapper;
+    }
 
     public List<BorrowingDTO> getAllBorrowings() {
         return borrowingRepository.findAll().stream().map(borrowingMapper::borrowingToBorrowingDTO).collect(Collectors.toList());

@@ -2,7 +2,6 @@ package com.project.library_management_be.controller;
 
 import com.project.library_management_be.dto.AvailableBooksDTO;
 import com.project.library_management_be.dto.BookDTO;
-import com.project.library_management_be.dto.UserDTO;
 import com.project.library_management_be.model.Book;
 import com.project.library_management_be.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,7 @@ public class BookController {
     }
 
     @GetMapping("/getAllAvailableBooks")
+    @PreAuthorize("hasRole('MEMBER')")
     public ResponseEntity<List<AvailableBooksDTO>> getAllAvailableBooks() {
         return new ResponseEntity<>(bookService.getAllAvailableBooks(), HttpStatus.OK);
     }

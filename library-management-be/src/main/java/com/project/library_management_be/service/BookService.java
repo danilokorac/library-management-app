@@ -2,9 +2,7 @@ package com.project.library_management_be.service;
 
 import com.project.library_management_be.dto.AvailableBooksDTO;
 import com.project.library_management_be.dto.BookDTO;
-import com.project.library_management_be.dto.UserDTO;
 import com.project.library_management_be.model.Book;
-import com.project.library_management_be.model.User;
 import com.project.library_management_be.repository.BookRepository;
 import com.project.library_management_be.util.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +14,15 @@ import java.util.stream.Collectors;
 @Service
 public class BookService {
 
+    private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
+
     @Autowired
-    private BookRepository bookRepository;
-    @Autowired
-    private BookMapper bookMapper;
+    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
+        this.bookRepository = bookRepository;
+        this.bookMapper = bookMapper;
+    }
+
 
     public List<BookDTO> getAllBooks() {
         return bookRepository.findAll().stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
