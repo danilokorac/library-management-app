@@ -30,12 +30,14 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
     @PostMapping("/addUser")
+    @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<String> addNewUser(@RequestBody User user) {
         userService.addNewUser(user);
         return new ResponseEntity<>("User successfully added to the database!", HttpStatus.CREATED);
     }
 
     @PutMapping("/updateUser")
+    @PreAuthorize("hasRole('EMPLOYEE') or hasRole('MEMBER')")
     public ResponseEntity<UserDTO> updateUser(@RequestBody User user, @RequestParam(name = "id") Long userId) {
         UserDTO updatedUser = userService.updateUser(user, userId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);

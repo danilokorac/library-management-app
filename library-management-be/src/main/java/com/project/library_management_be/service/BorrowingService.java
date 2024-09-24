@@ -59,4 +59,11 @@ public class BorrowingService {
         Borrowing borrowingToDelete = borrowingRepository.findById(borrowingId).orElseThrow(() -> new RuntimeException("The borrowing is not found!"));
         borrowingRepository.delete(borrowingToDelete);
     }
+
+    public List<BorrowingDTO> getAllBorrowingsByUserId(Long userId) {
+        return borrowingRepository.findByUserId(userId)
+                .stream()
+                .map(borrowingMapper::borrowingToBorrowingDTO)
+                .collect(Collectors.toList());
+    }
 }
