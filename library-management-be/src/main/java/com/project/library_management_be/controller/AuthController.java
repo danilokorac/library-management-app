@@ -1,6 +1,7 @@
 package com.project.library_management_be.controller;
 
 import com.project.library_management_be.dto.LoginDTO;
+import com.project.library_management_be.dto.RegisterDTO;
 import com.project.library_management_be.model.User;
 import com.project.library_management_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody @Validated User userToRegister) {
+    public ResponseEntity<String> registerUser(@RequestBody @Validated RegisterDTO userToRegisterDTO) {
         try {
-            userService.registerUser(userToRegister);
+            userService.registerUser(userToRegisterDTO);
             return new ResponseEntity<>("User successfully created and added to the database!", HttpStatus.CREATED);
         } catch (IllegalArgumentException illegalArgumentException){
             return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.BAD_REQUEST);
@@ -40,17 +41,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> userLogin(@RequestBody LoginDTO loginCredentials) {
+    public ResponseEntity<String> userLogin(@RequestBody @Validated LoginDTO loginCredentials) {
         try {
             // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginCredentials.getUsername(), loginCredentials.getPassword())
+                    new UsernamePasswordAuthenticationToken(
+                            loginCredentials.getUsername(),
+                            loginCredentials.getPassword()
+                    )
             );
 
             // If successful, set the authentication in the security context
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // You may generate and return a JWT token here if using JWT
+            // generate and return a JWT token here if using JWT
             return new ResponseEntity<>("User successfully logged in", HttpStatus.OK);
         } catch (BadCredentialsException e) {
             return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);

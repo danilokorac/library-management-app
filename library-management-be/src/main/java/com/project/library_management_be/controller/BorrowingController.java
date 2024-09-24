@@ -1,5 +1,6 @@
 package com.project.library_management_be.controller;
 
+import com.project.library_management_be.dto.BorrowingDTO;
 import com.project.library_management_be.model.Borrowing;
 import com.project.library_management_be.service.BorrowingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +20,28 @@ public class BorrowingController {
 
     @GetMapping("/getAllBorrowings")
     @PreAuthorize("hasRole('EMPLOYEE')")
-    public List<Borrowing> getAllBorrowings() {
+    public List<BorrowingDTO> getAllBorrowings() {
         return borrowingService.getAllBorrowings();
     }
 
     @GetMapping("/getBorrowingById")
     @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<Borrowing> getBorrowingById(@RequestParam(name = "id") Long borrowingId) {
-        Borrowing borrowing = borrowingService.getBorrowingById(borrowingId);
+    public ResponseEntity<BorrowingDTO> getBorrowingById(@RequestParam(name = "id") Long borrowingId) {
+        BorrowingDTO borrowing = borrowingService.getBorrowingById(borrowingId);
         return new ResponseEntity<>(borrowing, HttpStatus.OK);
     }
 
     @PostMapping("/addNewBorrowing")
     @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<Borrowing> addNewBorrowing(@RequestBody Borrowing borrowing) {
-        Borrowing newBorrowing = borrowingService.addNewBorrowing(borrowing);
-        return new ResponseEntity<>(newBorrowing, HttpStatus.CREATED);
+    public ResponseEntity<String> addNewBorrowing(@RequestBody Borrowing borrowing) {
+        borrowingService.addNewBorrowing(borrowing);
+        return new ResponseEntity<>("Borrowing successfully added to the database!", HttpStatus.CREATED);
     }
 
     @PutMapping("/updateBorrowing")
     @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<Borrowing> updateBorrowing(@RequestBody Borrowing borrowing, @RequestParam(name = "id") Long borrowingId) {
-        Borrowing updatedBorrowing = borrowingService.updateBorrowing(borrowing, borrowingId);
+    public ResponseEntity<BorrowingDTO> updateBorrowing(@RequestBody Borrowing borrowing, @RequestParam(name = "id") Long borrowingId) {
+        BorrowingDTO updatedBorrowing = borrowingService.updateBorrowing(borrowing, borrowingId);
         return new ResponseEntity<>(updatedBorrowing, HttpStatus.OK);
     }
 

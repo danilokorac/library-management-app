@@ -1,5 +1,8 @@
 package com.project.library_management_be.controller;
 
+import com.project.library_management_be.dto.AvailableBooksDTO;
+import com.project.library_management_be.dto.BookDTO;
+import com.project.library_management_be.dto.UserDTO;
 import com.project.library_management_be.model.Book;
 import com.project.library_management_be.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,23 +11,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/book")
 public class BookController {
     @Autowired
     private BookService bookService;
 
+    @GetMapping("/getAllBooks")
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    public ResponseEntity<List<BookDTO>> getAllBooks() {
+        return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
+    }
     @PostMapping("/addBook")
     @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<Book> addNewBook(@RequestBody Book book) {
-        Book newBook =  bookService.addNewBook(book);
+    public ResponseEntity<BookDTO> addNewBook(@RequestBody Book book) {
+        BookDTO newBook =  bookService.addNewBook(book);
         return new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateBook")
     @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<Book> updateBook(@RequestBody Book book, @RequestParam(name = "id") Long bookId) {
-        Book updatedBook = bookService.updateBook(book, bookId);
+    public ResponseEntity<BookDTO> updateBook(@RequestBody Book book, @RequestParam(name = "id") Long bookId) {
+        BookDTO updatedBook = bookService.updateBook(book, bookId);
         return new ResponseEntity<>(updatedBook, HttpStatus.OK);
     }
     @DeleteMapping("/deleteBook")
@@ -32,5 +42,10 @@ public class BookController {
     public ResponseEntity<Void> deleteBook(@RequestParam(name = "id") Long bookId) {
         bookService.deleteBook(bookId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/getAllAvailableBooks")
+    public ResponseEntity<List<AvailableBooksDTO>> getAllAvailableBooks() {
+        return new ResponseEntity<>(bookService.getAllAvailableBooks(), HttpStatus.OK);
     }
 }

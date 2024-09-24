@@ -1,13 +1,16 @@
 package com.project.library_management_be.service;
 
+import com.project.library_management_be.dto.BorrowingDTO;
 import com.project.library_management_be.model.Borrowing;
 import com.project.library_management_be.repository.BookRepository;
 import com.project.library_management_be.repository.BorrowingRepository;
 import com.project.library_management_be.repository.UserRepository;
+import com.project.library_management_be.util.BorrowingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BorrowingService {
@@ -19,26 +22,32 @@ public class BorrowingService {
     @Autowired
     private BookRepository bookRepository;
 
-    public List<Borrowing> getAllBorrowings() {
-        return borrowingRepository.findAll();
+    @Autowired
+    private BorrowingMapper borrowingMapper;
+
+    public List<BorrowingDTO> getAllBorrowings() {
+        return borrowingRepository.findAll().stream().map(borrowingMapper::borrowingToBorrowingDTO).collect(Collectors.toList());
     }
 
-    public Borrowing getBorrowingById(Long borrowingId) {
-        return borrowingRepository.findById(borrowingId).orElseThrow(() -> new RuntimeException("The borrowing is not found!"));
+    public BorrowingDTO getBorrowingById(Long borrowingId) {
+        Borrowing borrowing = borrowingRepository.findById(borrowingId).orElseThrow(() -> new RuntimeException("The borrowing is not found!"));
+        return borrowingMapper.borrowingToBorrowingDTO(borrowing);
     }
 
-    public Borrowing addNewBorrowing(Borrowing borrowing) {
-        return borrowingRepository.save(borrowing);
+    public BorrowingDTO addNewBorrowing(Borrowing borrowing) {
+        Borrowing savedBorrowing = borrowingRepository.save(borrowing);
+        return borrowingMapper.borrowingToBorrowingDTO(savedBorrowing);
     }
 
-    public Borrowing updateBorrowing(Borrowing updatedBorrowing, Long borrowingId) {
+    public BorrowingDTO updateBorrowing(Borrowing updatedBorrowingData, Long borrowingId) {
         return borrowingRepository.findById(borrowingId).map(borrowing -> {
             borrowing.setUser(userRepository.findById(borrowing.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found!")));
             borrowing.setBook(bookRepository.findById(borrowing.getBook().getId()).orElseThrow(() -> new RuntimeException("Book not found!")));
-            borrowing.setBorrowStartDate(updatedBorrowing.getBorrowStartDate());
-            borrowing.setBorrowEndDate(updatedBorrowing.getBorrowEndDate());
-            borrowing.setComments(updatedBorrowing.getComments());
-            return borrowingRepository.save(borrowing);
+            borrowing.setBorrowStartDate(updatedBorrowingData.getBorrowStartDate());
+            borrowing.setBorrowEndDate(updatedBorrowingData.getBorrowEndDate());
+            borrowing.setComments(updatedBorrowingData.getComments());
+            Borrowing updatedBorrowing = borrowingRepository.save(borrowing);
+            return borrowingMapper.borrowingToBorrowingDTO(updatedBorrowing) ;
         }).orElseThrow(() -> new RuntimeException("The borrowing is not found!"));
     }
 

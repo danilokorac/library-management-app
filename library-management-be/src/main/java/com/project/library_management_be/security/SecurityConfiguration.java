@@ -33,11 +33,10 @@ public class SecurityConfiguration {
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers("/auth/**").permitAll()
-                            .requestMatchers("/user/**").permitAll()
+                            .requestMatchers("/user/**").hasAnyRole("EMPLOYEE", "MEMBER")
                             .requestMatchers("/book/**").hasRole("EMPLOYEE")
-                            .requestMatchers("/borrowings/**").hasRole("EMPLOYEE")
-                            .anyRequest().authenticated())
-                    .httpBasic(Customizer.withDefaults());
+                            .requestMatchers("/borrowing/**").hasRole("EMPLOYEE")
+                            .anyRequest().authenticated()).httpBasic();;  // Other requests need authentication
 
             return http.build();
 
