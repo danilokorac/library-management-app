@@ -16,7 +16,7 @@ public class Book {
     private String title;
     @Enumerated(EnumType.STRING)
     private Genre bookGenre;
-    private String starRating;
+    private Double starRating;
     private String stock;
     private int quantity;
 

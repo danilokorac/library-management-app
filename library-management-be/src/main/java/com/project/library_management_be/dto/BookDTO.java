@@ -8,7 +8,7 @@ public class BookDTO {
 
     private String title;
     private Genre bookGenre;
-    private String starRating;
+    private Double starRating;
     private String stock;
     private int quantity;
 }

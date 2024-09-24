@@ -61,7 +61,7 @@ public class UserService {
     public UserDTO updateUser(User updatedUserData, Long userId) {
         return userRepository.findById(userId).map(user -> {
             user.setUsername(updatedUserData.getUsername());
-            user.setPassword(passwordEncoder.encode(updatedUserData.getPassword()));  // Ne zaboravi šifrovanje lozinke
+            user.setPassword(passwordEncoder.encode(updatedUserData.getPassword()));
             user.setFirstName(updatedUserData.getFirstName());
             user.setLastName(updatedUserData.getLastName());
             user.setEmail(updatedUserData.getEmail());

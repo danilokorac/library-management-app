@@ -52,10 +52,10 @@ public class BorrowingController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/getAllBorrowingsByUserId")
+    @GetMapping("/getAllBorrowingsAndDebtByUserId")
     @PreAuthorize("hasRole('EMPLOYEE') or hasRole('MEMBER')")
-    public ResponseEntity<List<BorrowingDTO>> getAllBorrowingsByUserId(@RequestParam(name = "id") Long userId) {
-        List<BorrowingDTO> userBorrowings = borrowingService.getAllBorrowingsByUserId(userId);
+    public ResponseEntity<List<BorrowingDTO>> getAllBorrowingsAndDebtByUserId(@RequestParam(name = "id") Long userId) {
+        List<BorrowingDTO> userBorrowings = borrowingService.getAllBorrowingsAndDebtByUserId(userId);
         return new ResponseEntity<>(userBorrowings, HttpStatus.OK);
     }
 

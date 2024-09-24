@@ -12,4 +12,5 @@ public class BorrowingDTO {
     private LocalDate borrowStartDate;
     private LocalDate borrowEndDate;
     private String comments;
+    private Double debtAmount;
 }

@@ -10,6 +10,7 @@ import com.project.library_management_be.util.BorrowingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,7 @@ public class BorrowingService {
             borrowing.setBorrowStartDate(updatedBorrowingData.getBorrowStartDate());
             borrowing.setBorrowEndDate(updatedBorrowingData.getBorrowEndDate());
             borrowing.setComments(updatedBorrowingData.getComments());
+            borrowing.setDebtAmount(updatedBorrowingData.getDebtAmount());
             Borrowing updatedBorrowing = borrowingRepository.save(borrowing);
             return borrowingMapper.borrowingToBorrowingDTO(updatedBorrowing) ;
         }).orElseThrow(() -> new NotFoundException("The borrowing is not found!"));
@@ -61,10 +63,18 @@ public class BorrowingService {
         borrowingRepository.delete(borrowingToDelete);
     }
 
-    public List<BorrowingDTO> getAllBorrowingsByUserId(Long userId) {
+    public List<BorrowingDTO> getAllBorrowingsAndDebtByUserId(Long userId) {
         return borrowingRepository.findByUserId(userId)
                 .stream()
-                .map(borrowingMapper::borrowingToBorrowingDTO)
+                .map(borrowing -> {
+                    if(borrowing.getBorrowEndDate().isBefore(LocalDate.now())) {
+                        borrowing.setDebtAmount(100.0);
+                    } else {
+                        borrowing.setDebtAmount(0.0);
+                    }
+
+                    return borrowingMapper.borrowingToBorrowingDTO(borrowing);
+                })
                 .collect(Collectors.toList());
     }
 }

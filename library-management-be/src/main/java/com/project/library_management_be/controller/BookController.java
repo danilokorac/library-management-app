@@ -51,7 +51,7 @@ public class BookController {
     }
 
     @GetMapping("/getAllAvailableBooks")
-    @PreAuthorize("hasRole('MEMBER')")
+    @PreAuthorize("hasRole('MEMBER') or hasRole('EMPLOYEE')")
     public ResponseEntity<List<AvailableBooksDTO>> getAllAvailableBooks() {
         return new ResponseEntity<>(bookService.getAllAvailableBooks(), HttpStatus.OK);
     }

@@ -26,5 +26,6 @@ public class Borrowing {
     private LocalDate borrowStartDate;
     private LocalDate borrowEndDate;
     private String comments;
+    private Double debtAmount; // Amount if the book is not brought back after borrowEndDate
 
 }
