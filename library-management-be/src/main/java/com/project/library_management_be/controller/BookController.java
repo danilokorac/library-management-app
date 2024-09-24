@@ -2,6 +2,7 @@ package com.project.library_management_be.controller;
 
 import com.project.library_management_be.dto.AvailableBooksDTO;
 import com.project.library_management_be.dto.BookDTO;
+import com.project.library_management_be.dto.UserDTO;
 import com.project.library_management_be.model.Book;
 import com.project.library_management_be.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class BookController {
     @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
+    }
+    @GetMapping("/getBookById")
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    public ResponseEntity<BookDTO> getBookById(@RequestParam(name = "id") Long bookId) {
+        BookDTO book = bookService.getBookById(bookId);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
     @PostMapping("/addBook")
     @PreAuthorize("hasRole('EMPLOYEE')")

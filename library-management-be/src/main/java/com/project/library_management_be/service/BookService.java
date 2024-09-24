@@ -2,7 +2,10 @@ package com.project.library_management_be.service;
 
 import com.project.library_management_be.dto.AvailableBooksDTO;
 import com.project.library_management_be.dto.BookDTO;
+import com.project.library_management_be.dto.UserDTO;
+import com.project.library_management_be.exception.NotFoundException;
 import com.project.library_management_be.model.Book;
+import com.project.library_management_be.model.User;
 import com.project.library_management_be.repository.BookRepository;
 import com.project.library_management_be.util.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,11 @@ public class BookService {
     public List<BookDTO> getAllBooks() {
         return bookRepository.findAll().stream().map(bookMapper::bookToBookDTO).collect(Collectors.toList());
     }
+
+    public BookDTO getBookById(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(()-> new NotFoundException("Book not found!"));
+        return bookMapper.bookToBookDTO(book);
+    }
     public BookDTO addNewBook(Book bookToAdd) {
         bookRepository.save(bookToAdd);
         return bookMapper.bookToBookDTO(bookToAdd);
@@ -41,7 +49,7 @@ public class BookService {
             book.setStock(updatedBookData.getStock());
             Book updatedBook = bookRepository.save(book);
             return bookMapper.bookToBookDTO(updatedBook);
-        }).orElseThrow(() -> new RuntimeException("Book with id: " + bookId + " is not found in the database!"));
+        }).orElseThrow(() -> new NotFoundException("Book with id: " + bookId + " is not found in the database!"));
     }
 
     public void deleteBook(Long bookId) {

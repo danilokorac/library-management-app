@@ -1,6 +1,7 @@
 package com.project.library_management_be.service;
 
 import com.project.library_management_be.dto.BorrowingDTO;
+import com.project.library_management_be.exception.NotFoundException;
 import com.project.library_management_be.model.Borrowing;
 import com.project.library_management_be.repository.BookRepository;
 import com.project.library_management_be.repository.BorrowingRepository;
@@ -34,7 +35,7 @@ public class BorrowingService {
     }
 
     public BorrowingDTO getBorrowingById(Long borrowingId) {
-        Borrowing borrowing = borrowingRepository.findById(borrowingId).orElseThrow(() -> new RuntimeException("The borrowing is not found!"));
+        Borrowing borrowing = borrowingRepository.findById(borrowingId).orElseThrow(() -> new NotFoundException("The borrowing is not found!"));
         return borrowingMapper.borrowingToBorrowingDTO(borrowing);
     }
 
@@ -45,18 +46,18 @@ public class BorrowingService {
 
     public BorrowingDTO updateBorrowing(Borrowing updatedBorrowingData, Long borrowingId) {
         return borrowingRepository.findById(borrowingId).map(borrowing -> {
-            borrowing.setUser(userRepository.findById(borrowing.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found!")));
-            borrowing.setBook(bookRepository.findById(borrowing.getBook().getId()).orElseThrow(() -> new RuntimeException("Book not found!")));
+            borrowing.setUser(userRepository.findById(borrowing.getUser().getId()).orElseThrow(() -> new NotFoundException("User not found!")));
+            borrowing.setBook(bookRepository.findById(borrowing.getBook().getId()).orElseThrow(() -> new NotFoundException("Book not found!")));
             borrowing.setBorrowStartDate(updatedBorrowingData.getBorrowStartDate());
             borrowing.setBorrowEndDate(updatedBorrowingData.getBorrowEndDate());
             borrowing.setComments(updatedBorrowingData.getComments());
             Borrowing updatedBorrowing = borrowingRepository.save(borrowing);
             return borrowingMapper.borrowingToBorrowingDTO(updatedBorrowing) ;
-        }).orElseThrow(() -> new RuntimeException("The borrowing is not found!"));
+        }).orElseThrow(() -> new NotFoundException("The borrowing is not found!"));
     }
 
     public void deleteBorrowing(Long borrowingId) {
-        Borrowing borrowingToDelete = borrowingRepository.findById(borrowingId).orElseThrow(() -> new RuntimeException("The borrowing is not found!"));
+        Borrowing borrowingToDelete = borrowingRepository.findById(borrowingId).orElseThrow(() -> new NotFoundException("The borrowing is not found!"));
         borrowingRepository.delete(borrowingToDelete);
     }
 
