@@ -71,25 +71,25 @@ To run this project, you will need the following:
    
    -- Insert of books in table books
    INSERT INTO books (title, book_genre, star_rating, stock, quantity) VALUES
-   ('Pride and Prejudice', 'CLASSICS', '4.5', 'In Stock', 10),
-   ('Dune', 'SCIENCE_FICTION', '4.7', 'In Stock', 5),
-   ('The Girl with the Dragon Tattoo', 'THRILLER', '4.3', 'In Stock', 7),
-   ('Meditations', 'PHILOSOPHY', '4.8', 'Out of Stock', 0),
-   ('The Da Vinci Code', 'MYSTERY', '4.4', 'In Stock', 6),
-   ('The Notebook', 'ROMANCE', '4.6', 'In Stock', 8),
-   ('Gone Girl', 'CRIME', '4.5', 'In Stock', 4),
+   ('Pride and Prejudice', 'CLASSICS', 4.5, 'In Stock', 10),
+   ('Dune', 'SCIENCE_FICTION', 4.7, 'In Stock', 5),
+   ('The Girl with the Dragon Tattoo', 'THRILLER', 4.3, 'In Stock', 7),
+   ('Meditations', 'PHILOSOPHY', 4.8, 'Out of Stock', 0),
+   ('The Da Vinci Code', 'MYSTERY', 4.4, 'In Stock', 6),
+   ('The Notebook', 'ROMANCE', 4.6, 'In Stock', 8),
+   ('Gone Girl', 'CRIME', 4.5, 'In Stock', 4),
    ('The Book Thief', 'HISTORICAL_FICTION', '4.7', 'Out of Stock', 0);
    
    -- Insert of borrowings in table borrowings
-   INSERT INTO borrowings (user_id, book_id, borrow_end_date, borrow_start_date, comments) VALUES
-   (1, 1, '2024-09-01', '2024-09-15', 'No comment'),
-   (2, 2, '2024-09-10', '2024-09-24', 'Need to return before 24.09.'),
-   (1, 3, '2024-09-12', '2024-09-26', 'I like this book a lot'),
-   (3, 4, '2024-09-05', '2024-09-20', 'Interesting philosophy'),
-   (2, 5, '2024-09-15', '2024-09-29', 'Mistery with big plot'),
-   (3, 6, '2024-09-20', '2024-10-05', 'Love story'),
-   (1, 7, '2024-09-10', '2024-09-24', 'Really intense criminal story'),
-   (2, 8, '2024-09-01', '2024-09-15', 'Recommend for everyone!');
+   INSERT INTO borrowings (user_id, book_id, borrow_start_date, borrow_end_date, comments, debt_amount) VALUES
+   (1, 1, '2024-09-01', '2024-09-15', 'No comment', 100.0),
+   (2, 2, '2024-09-10', '2024-09-24', 'Need to return before 24.09.', 0.0),
+   (1, 3, '2024-09-12', '2024-09-26', 'I like this book a lot', 0.0),
+   (3, 4, '2024-09-05', '2024-09-20', 'Interesting philosophy', 100.0),
+   (2, 5, '2024-09-15', '2024-09-29', 'Mistery with big plot', 0.0),
+   (3, 6, '2024-09-20', '2024-10-05', 'Love story', 0.0),
+   (1, 7, '2024-09-10', '2024-09-24', 'Really intense criminal story', 0.0),
+   (2, 8, '2024-09-01', '2024-09-15', 'Recommend for everyone!', 100.0);
 
 9. **Restart the Application**:
    - Restart the Spring Boot application to ensure the database is fully set up with the initial data.
