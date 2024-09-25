@@ -24,20 +24,78 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Library Management App</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div class="container">
+      <!-- Sidebar (Vertical Navbar) -->
+      <div class="navbar">
+        <a href="#" class="logo">
+          <img src="./library.jpg" alt="Library Logo" />
+        </a>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+        <nav class="menu">
+          <button class="menu-btn">Popular</button>
+          <button class="menu-btn">Top Rated</button>
+          <button class="menu-btn">Available</button>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+          <div class="genres">
+            <h3>Genres</h3>
+            <button class="genre-btn">Fantasy</button>
+            <button class="genre-btn">Science Fiction</button>
+            <button class="genre-btn">Romance</button>
+            <!-- Add more genres here -->
+          </div>
+
+          <div class="auth-buttons">
+            <button class="auth-btn">Login</button>
+            <button class="auth-btn">Register</button>
+          </div>
+
+          <!-- Admin Dashboard Button -->
+          <div
+            class="admin-dashboard"
+            id="admin-dashboard"
+            style="display: none"
+          >
+            <button class="menu-btn">Dashboard</button>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="header">
+          <input type="text" class="search-bar" placeholder="Search books..." />
+        </div>
+        <div class="books">
+          <!-- Example Book Card -->
+          <div class="book-card">
+            <img src="library.jpg" alt="Book Cover" />
+            <h4>Book Title</h4>
+            <p>⭐ 4.5</p>
+            <p class="stock-status">In Stock</p>
+          </div>
+
+          <div class="book-card">
+            <img src="library.jpg" alt="Book Cover" />
+            <h4>Another Book</h4>
+            <p>⭐ 3.8</p>
+            <p class="stock-status out-of-stock">Out of Stock</p>
+          </div>
+
+          <!-- More book cards can be added here -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Mockup Admin User Logic
+      const isAdmin = false; // Set to false if not an admin
+
+      if (isAdmin) {
+        document.getElementById("admin-dashboard").style.display = "block";
+      }
+    </script>
   </body>
 </html>

@@ -1,13 +1,136 @@
-body {
+/* General styles */
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  display: flex;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+/* Container holding navbar and main content */
+.container {
+  display: flex;
+  width: 100%;
+}
+
+/* Sidebar (Navbar) */
+.navbar {
+  width: 20%;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navbar img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.menu {
+  width: 100%;
+}
+
+.menu h3 {
+  margin: 20px 0 10px;
+  font-size: 18px;
+}
+
+.menu-btn,
+.genre-btn,
+.auth-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #444;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 16px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.menu-btn:hover,
+.genre-btn:hover,
+.auth-btn:hover {
+  background-color: #555;
+}
+
+.auth-buttons {
+  margin-top: 40px;
+}
+
+.admin-dashboard {
+  margin-top: 30px;
+}
+
+/* Main Content Area */
+.main-content {
+  width: 80%;
+  padding: 20px;
+  background-color: white;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Book Cards */
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.book-card {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.book-card img {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.book-card h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.book-card p {
+  margin-bottom: 5px;
+}
+
+.stock-status {
+  color: green;
+}
+
+.out-of-stock {
+  color: red;
 }
