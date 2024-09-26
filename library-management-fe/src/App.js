@@ -1,47 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./components/navbar/Navbar";
-import BookCard from "./components/book-card/BookCard";
 import SearchBar from "./components/search-bar/SearchBar";
 import "./App.css";
-import libraryImage from "./assets/images/library.jpg";
+import RegisterForm from "./components/auth/RegisterForm";
+import LoginForm from "./components/auth/LoginForm";
+import BookList from "./components/book-card/BookList";
 
 function App() {
-  const dummyBooks = [
-    {
-      coverImage: libraryImage,
-      title: "The Great Gatsby",
-      rating: 4.2,
-      stock: 5,
-    },
-    {
-      coverImage: libraryImage,
-      title: "1984",
-      rating: 4.8,
-      stock: 2,
-    },
-    {
-      coverImage: libraryImage,
-      title: "To Kill a Mockingbird",
-      rating: 4.6,
-      stock: 0,
-    },
-    {
-      coverImage: libraryImage,
-      title: "Pride and Prejudice",
-      rating: 4.3,
-      stock: 8,
-    },
-  ];
+  const [activeScreen, setActiveScreen] = useState("books");
+  const switchScreen = (screen) => {
+    setActiveScreen(screen);
+  };
   return (
     <div className="app">
-      <Navbar />
+      <Navbar switchScreen={switchScreen} />
       <div className="main-content">
-        <SearchBar />
-        <div className="books-list">
-          {dummyBooks.map((book, index) => (
-            <BookCard key={index} book={book} />
-          ))}
-        </div>
+        {activeScreen === "books" && (
+          <>
+            <SearchBar /> <BookList />
+          </>
+        )}
+        {activeScreen === "login" && <LoginForm />}
+        {activeScreen === "register" && <RegisterForm />}
       </div>
     </div>
   );

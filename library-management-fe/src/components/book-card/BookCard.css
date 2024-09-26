@@ -1,22 +1,37 @@
+.book-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the cards */
+  padding: 20px; /* Add some padding */
+  margin: 0; /* Remove default margin */
+}
+
 .book-card {
-  width: 200px;
-  padding: 20px;
+  width: calc(20% - 20px); /* Adjust width for smaller cards */
+  padding: 15px; /* Reduce padding */
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+  margin: 10px; /* Use consistent margin for spacing */
   text-align: center;
   border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+/* Hover effect for book cards */
+.book-card:hover {
+  transform: scale(1.05); /* Slightly enlarge card on hover */
 }
 
 .book-cover {
   width: 100%;
-  height: 250px;
+  height: 200px; /* Reduce height for smaller cards */
   object-fit: cover;
   border-radius: 8px;
 }
 
 .book-title {
-  font-size: 1.2rem;
+  font-size: 1rem; /* Reduce font size */
   margin: 10px 0;
 }
 
@@ -34,6 +49,25 @@
 }
 
 .book-quantity {
-  font-size: 0.9rem;
+  font-size: 0.8rem; /* Reduce font size */
   color: #7f8c8d;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .book-card {
+    width: calc(25% - 20px); /* Adjust width for medium screens */
+  }
+}
+
+@media (max-width: 800px) {
+  .book-card {
+    width: calc(33.33% - 20px); /* Adjust width for small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .book-card {
+    width: calc(100% - 20px); /* Full width for very small screens */
+  }
 }

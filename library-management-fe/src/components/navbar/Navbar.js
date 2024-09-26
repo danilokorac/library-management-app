@@ -1,10 +1,15 @@
 import React from "react";
 import "./Navbar.css";
 import libraryImage from "../../assets/images/library.jpg";
-const Navbar = () => {
+const Navbar = ({ switchScreen }) => {
   return (
     <div className="navbar">
-      <img src={libraryImage} alt="Library Logo" className="library-logo" />
+      <img
+        src={libraryImage}
+        alt="Library Logo"
+        className="library-logo"
+        onClick={() => switchScreen("books")}
+      />
 
       <button className="nav-btn">Popular</button>
       <button className="nav-btn">Top Rated</button>
@@ -19,8 +24,12 @@ const Navbar = () => {
       </div>
 
       <div className="auth-buttons">
-        <button className="auth-btn">Login</button>
-        <button className="auth-btn">Register</button>
+        <button className="auth-btn" onClick={() => switchScreen("login")}>
+          Login
+        </button>
+        <button className="auth-btn" onClick={() => switchScreen("register")}>
+          Register
+        </button>
       </div>
     </div>
   );

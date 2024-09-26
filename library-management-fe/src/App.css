@@ -1,19 +1,27 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
+
 .app {
   display: flex;
+  min-height: 100vh; /* Ensure the app takes at least full viewport height */
 }
 
 .main-content {
   flex-grow: 1;
   padding: 20px;
   background-color: #ecf0f1;
+  overflow-y: auto; /* Add scroll if content overflows */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
 }
 
 .books-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  margin: 0 -10px; /* Adjust margins for book cards */
+  width: calc(100% + 20px); /* Ensure full width */
 }
