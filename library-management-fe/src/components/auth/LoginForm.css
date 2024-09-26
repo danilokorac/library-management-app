@@ -37,3 +37,7 @@
 .login-form button:hover {
   background-color: #45a049;
 }
+
+.success-card {
+  text-align: center;
+}

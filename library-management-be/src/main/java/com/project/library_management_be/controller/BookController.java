@@ -20,7 +20,6 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/getAllBooks")
-    @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
     }
@@ -51,7 +50,6 @@ public class BookController {
     }
 
     @GetMapping("/getAllAvailableBooks")
-    @PreAuthorize("hasRole('MEMBER') or hasRole('EMPLOYEE')")
     public ResponseEntity<List<AvailableBooksDTO>> getAllAvailableBooks() {
         return new ResponseEntity<>(bookService.getAllAvailableBooks(), HttpStatus.OK);
     }

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 import libraryImage from "../../assets/images/library.jpg";
-const Navbar = ({ switchScreen }) => {
+const Navbar = ({ switchScreen, isLoggedIn, user, handleLogout }) => {
   return (
     <div className="navbar">
       <img
@@ -23,13 +23,31 @@ const Navbar = ({ switchScreen }) => {
         <button className="genre-btn">Sci-Fi</button>
       </div>
 
+      {/* Authentication buttons */}
       <div className="auth-buttons">
-        <button className="auth-btn" onClick={() => switchScreen("login")}>
-          Login
-        </button>
-        <button className="auth-btn" onClick={() => switchScreen("register")}>
-          Register
-        </button>
+        {isLoggedIn ? (
+          // If the user is registered and logged in, display user info and logout button
+          <div className="user-info">
+            <span className="user-icon">👤</span>
+            <span className="user-name">{user?.firstName || "User"}</span>
+            <button className="auth-btn logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        ) : (
+          // If not registered or logged in, show Login and Register buttons
+          <>
+            <button className="auth-btn" onClick={() => switchScreen("login")}>
+              Login
+            </button>
+            <button
+              className="auth-btn"
+              onClick={() => switchScreen("register")}
+            >
+              Register
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

@@ -3,8 +3,6 @@ import axios from "axios";
 import "./BookCard.css";
 import BookCard from "./BookCard";
 
-const token = process.env.REACT_APP_BEARER_TOKEN;
-
 const BookList = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,11 +11,7 @@ const BookList = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("/book/getAllBooks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get("/book/getAllBooks");
         setBooks(response.data);
         setLoading(false);
       } catch (error) {

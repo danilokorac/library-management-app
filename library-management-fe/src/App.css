@@ -16,6 +16,7 @@
   overflow-y: auto; /* Add scroll if content overflows */
   display: flex;
   flex-direction: column; /* Stack children vertically */
+  justify-content: center;
 }
 
 .books-list {
