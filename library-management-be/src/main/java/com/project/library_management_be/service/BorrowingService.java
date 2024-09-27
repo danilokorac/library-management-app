@@ -63,8 +63,8 @@ public class BorrowingService {
         borrowingRepository.delete(borrowingToDelete);
     }
 
-    public List<BorrowingDTO> getAllBorrowingsAndDebtByUserId(Long userId) {
-        return borrowingRepository.findByUserId(userId)
+    public List<BorrowingDTO> getAllBorrowingsAndDebtByUserUsername(String username) {
+        return borrowingRepository.findByUserUsername(username)
                 .stream()
                 .map(borrowing -> {
                     if(borrowing.getBorrowEndDate().isBefore(LocalDate.now())) {

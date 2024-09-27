@@ -23,7 +23,7 @@ const LoginForm = ({ setUser, setIsLoggedIn, switchScreen }) => {
       }
 
       const data = await response.json();
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.accessToken);
 
       setUser({ username });
       setIsLoggedIn(true);

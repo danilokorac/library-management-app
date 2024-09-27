@@ -1,0 +1,48 @@
+.user-dashboard {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-dashboard h2 {
+  text-align: center;
+  margin: 15px;
+}
+
+.user-profile {
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.user-profile p {
+  margin: 5px 0;
+}
+
+.borrowings-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.borrowings-table th,
+.borrowings-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.borrowings-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.borrowings-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.borrowings-table tr:hover {
+  background-color: #f1f1f1;
+}

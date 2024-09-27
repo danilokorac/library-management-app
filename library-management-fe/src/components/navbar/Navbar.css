@@ -42,7 +42,7 @@
 }
 
 .genres {
-  margin-top: 20px;
+  margin-top: 60px;
   width: 100%;
   text-align: center;
 }
@@ -87,6 +87,11 @@
 
 .auth-btn:hover {
   background-color: #c0392b;
+}
+
+.profile-btn {
+  width: 50%;
+  background-color: #8b2b20;
 }
 
 @media (max-width: 768px) {

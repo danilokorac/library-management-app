@@ -5,6 +5,7 @@ import "./App.css";
 import RegisterForm from "./components/auth/RegisterForm";
 import LoginForm from "./components/auth/LoginForm";
 import BookList from "./components/book-card/BookList";
+import UserDashboard from "./components/user-dashboard/UserDashboard";
 
 function App() {
   const [activeScreen, setActiveScreen] = useState("books");
@@ -49,6 +50,7 @@ function App() {
             switchScreen={switchScreen}
           />
         )}
+        {activeScreen === "user-dashboard" && <UserDashboard user={user} />}
       </div>
     </div>
   );

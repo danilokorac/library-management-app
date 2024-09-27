@@ -16,11 +16,10 @@ const Navbar = ({ switchScreen, isLoggedIn, user, handleLogout }) => {
       <button className="nav-btn">Currently Available</button>
 
       <div className="genres">
-        <h3>Genres:</h3>
+        <h3>Top 3 Genres</h3>
         <button className="genre-btn">Fiction</button>
         <button className="genre-btn">Non-Fiction</button>
         <button className="genre-btn">Fantasy</button>
-        <button className="genre-btn">Sci-Fi</button>
       </div>
 
       {/* Authentication buttons */}
@@ -30,6 +29,13 @@ const Navbar = ({ switchScreen, isLoggedIn, user, handleLogout }) => {
           <div className="user-info">
             <span className="user-icon">👤</span>
             <span className="user-name">{user?.username || "User"}</span>
+            <br />
+            <button
+              className="auth-btn profile-btn"
+              onClick={() => switchScreen("user-dashboard")}
+            >
+              View Profile
+            </button>
             <button className="auth-btn logout-btn" onClick={handleLogout}>
               Logout
             </button>
