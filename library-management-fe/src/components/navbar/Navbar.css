@@ -89,9 +89,11 @@
   background-color: #c0392b;
 }
 
-.profile-btn {
+.profile-btn,
+.admin-btn {
   width: 50%;
   background-color: #8b2b20;
+  margin: 3px;
 }
 
 @media (max-width: 768px) {

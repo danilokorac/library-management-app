@@ -1,0 +1,132 @@
+/* Admin Panel Container */
+.admin-panel {
+  padding: 40px 20px;
+  background-color: #f9f9f9; /* Light background color */
+}
+
+/* Top Buttons Container */
+.admin-panel-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Top Buttons Styles */
+.admin-panel-buttons button {
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-panel-buttons button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Admin Panel Table Styles */
+.admin-panel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Table Headers */
+.admin-panel-table th {
+  padding: 15px 10px;
+  background-color: #333; /* Dark background */
+  color: #fff; /* White text */
+  text-transform: uppercase; /* Uppercase text */
+  letter-spacing: 1px; /* Spacing between letters */
+  text-align: left;
+  border-bottom: 2px solid #ddd; /* Border at the bottom */
+}
+
+/* Table Data Cells */
+.admin-panel-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  background-color: #f8f8f8; /* Light background for rows */
+}
+
+/* Zebra Stripe for Rows */
+.admin-panel-table tr:nth-child(even) {
+  background-color: #f1f1f1; /* Even rows color */
+}
+
+/* Update and Delete Button Styles */
+.admin-panel-table .action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Common Styles for Action Buttons */
+.admin-panel-table button {
+  padding: 8px 16px;
+  margin-left: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Update Button Styles */
+.admin-panel-table .update-button {
+  background-color: #2196f3; /* Blue */
+  color: white;
+}
+
+.admin-panel-table .update-button:hover {
+  background-color: #1e88e5; /* Darker blue */
+  transform: scale(1.05); /* Slight grow on hover */
+}
+
+/* Delete Button Styles */
+.admin-panel-table .delete-button {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.admin-panel-table .delete-button:hover {
+  background-color: #e53935; /* Darker red */
+  transform: scale(1.05); /* Slight grow on hover */
+}
+
+/* Loading and Error Styles */
+.loading,
+.error {
+  text-align: center;
+  font-size: 18px;
+  padding: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

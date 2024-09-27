@@ -6,6 +6,7 @@ import RegisterForm from "./components/auth/RegisterForm";
 import LoginForm from "./components/auth/LoginForm";
 import BookList from "./components/book-card/BookList";
 import UserDashboard from "./components/user-dashboard/UserDashboard";
+import AdminPanel from "./components/admin-panel/AdminPanel";
 
 function App() {
   const [activeScreen, setActiveScreen] = useState("books");
@@ -51,6 +52,7 @@ function App() {
           />
         )}
         {activeScreen === "user-dashboard" && <UserDashboard user={user} />}
+        {activeScreen === "admin-panel" && <AdminPanel />}
       </div>
     </div>
   );

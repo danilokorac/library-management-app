@@ -36,7 +36,7 @@ const BookList = () => {
       {books.map((book) => (
         <BookCard
           key={book.id}
-          coverImage={require("../../assets/images/library.jpg")}
+          coverImage={require("../../assets/images/book-cover.jpg")}
           title={book.title}
           rating={book.starRating}
           quantity={book.quantity}

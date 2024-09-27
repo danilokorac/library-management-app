@@ -36,6 +36,15 @@ const Navbar = ({ switchScreen, isLoggedIn, user, handleLogout }) => {
             >
               View Profile
             </button>
+            <br />
+            {true && (
+              <button
+                className="auth-btn admin-btn"
+                onClick={() => switchScreen("admin-panel")}
+              >
+                Dashboard
+              </button>
+            )}
             <button className="auth-btn logout-btn" onClick={handleLogout}>
               Logout
             </button>
