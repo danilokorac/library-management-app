@@ -37,3 +37,20 @@
 .register-form button:hover {
   background-color: #0056b3;
 }
+
+.success-card {
+  border: 1px solid #4caf50;
+  background-color: #e8f5e9;
+  padding: 15px;
+  margin-top: 20px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.success-card p {
+  color: #4caf50;
+}
+
+.success-card button {
+  margin-top: 10px;
+}

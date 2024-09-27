@@ -29,7 +29,7 @@ const Navbar = ({ switchScreen, isLoggedIn, user, handleLogout }) => {
           // If the user is registered and logged in, display user info and logout button
           <div className="user-info">
             <span className="user-icon">👤</span>
-            <span className="user-name">{user?.firstName || "User"}</span>
+            <span className="user-name">{user?.username || "User"}</span>
             <button className="auth-btn logout-btn" onClick={handleLogout}>
               Logout
             </button>

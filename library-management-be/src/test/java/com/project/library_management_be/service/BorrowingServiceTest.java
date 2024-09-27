@@ -1,20 +1,14 @@
 package com.project.library_management_be.service;
 
-import com.project.library_management_be.dto.BookDTO;
 import com.project.library_management_be.dto.BorrowingDTO;
-import com.project.library_management_be.dto.UserDTO;
-import com.project.library_management_be.model.Book;
 import com.project.library_management_be.model.Borrowing;
-import com.project.library_management_be.model.User;
 import com.project.library_management_be.repository.BorrowingRepository;
 import com.project.library_management_be.util.BorrowingMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.Arrays;
