@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 class UserServiceTest {
 
     @InjectMocks
-    private UserService userService;
+    private AuthService authService;
 
     @Mock
     private UserRepository userRepository;
@@ -42,7 +42,7 @@ class UserServiceTest {
         when(userRepository.findByUsername(userToRegisterDTO.getUsername())).thenReturn(Optional.of(new User()));
 
         // Act and Assert
-        assertThrows(NotFoundException.class, () -> userService.registerUser(userToRegisterDTO));
+        assertThrows(NotFoundException.class, () -> authService.registerUser(userToRegisterDTO));
     }
 
     @Test
@@ -56,6 +56,6 @@ class UserServiceTest {
         when(userMapper.registerDtoToUser(userToRegisterDTO)).thenReturn(new User());
 
         // Act and Assert
-        assertThrows(IllegalArgumentException.class, () -> userService.registerUser(userToRegisterDTO));
+        assertThrows(IllegalArgumentException.class, () -> authService.registerUser(userToRegisterDTO));
     }
 }

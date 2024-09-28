@@ -33,11 +33,11 @@ class BorrowingServiceTest {
     @Test
     void testGetAllBorrowingsAndDebtByUserId() {
         // Arrange
-        Long userId = 1L;
+        String username = "username";
         Borrowing borrowing = new Borrowing();
         borrowing.setBorrowEndDate(LocalDate.of(2022, 1, 15));
 
-        when(borrowingRepository.findByUserId(userId)).thenReturn(Arrays.asList(borrowing));
+        when(borrowingRepository.findByUserUsername(username)).thenReturn(Arrays.asList(borrowing));
 
         BorrowingDTO expectedBorrowingDTO = new BorrowingDTO();
         expectedBorrowingDTO.setDebtAmount(100.0);
@@ -45,7 +45,7 @@ class BorrowingServiceTest {
         when(borrowingMapper.borrowingToBorrowingDTO(borrowing)).thenReturn(expectedBorrowingDTO);
 
         // Act
-        List<BorrowingDTO> result = borrowingService.getAllBorrowingsAndDebtByUserId(userId);
+        List<BorrowingDTO> result = borrowingService.getAllBorrowingsAndDebtByUserUsername(username);
 
         // Assert
         assertNotNull(result);

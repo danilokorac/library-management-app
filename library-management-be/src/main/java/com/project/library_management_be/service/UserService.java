@@ -27,21 +27,15 @@ public class UserService {
     private final  UserRepository userRepository;
     private final  PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
-                       UserMapper userMapper,
-                       AuthenticationManager authenticationManager,
-                       JwtTokenProvider jwtTokenProvider) {
+                       UserMapper userMapper) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -101,40 +95,11 @@ public class UserService {
         }).orElseThrow(() -> new NotFoundException("User with id: " + userId + " does not exist in the database!"));
     }
 
-    public User registerUser(RegisterDTO userToRegisterDTO) {
-        if(userRepository.findByUsername(userToRegisterDTO.getUsername()).isPresent()) {
-            throw new NotFoundException("User with the username: " + userToRegisterDTO.getUsername() + "already exists!");
-        }
+    public UserDTO authenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
 
-        User userToRegister = userMapper.registerDtoToUser(userToRegisterDTO);
-
-        if(userToRegister.getMembershipType() == null) {
-            throw new IllegalArgumentException("You need to choose membership type to proceed further!");
-        }
-
-        userToRegister.setPassword(passwordEncoder.encode(userToRegister.getPassword()));
-
-        if(userToRegister.getRole() == null) {
-            userToRegister.setRole(Role.MEMBER);
-        }
-
-        return userRepository.save(userToRegister);
-
+        return userMapper.userToUserDTO(currentUser);
     }
 
-    public String login(LoginDTO loginDTO) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDTO.getUsername(),
-                        loginDTO.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = jwtTokenProvider.generateToken(authentication);
-
-        return token;
-    }
 }
