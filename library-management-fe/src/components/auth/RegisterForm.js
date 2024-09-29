@@ -22,10 +22,16 @@ const RegisterForm = ({ setUser, switchScreen }) => {
     e.preventDefault();
     try {
       const response = await axios.post("/auth/register", formData);
-      if (
-        response.data === "User successfully created and added to the database!"
-      ) {
+      if (response.status === 201 && response.data) {
         setIsRegistered(true);
+        setFormData({
+          username: "",
+          password: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          membershipType: "FREE",
+        });
       } else {
         setError("Registration failed. Please try again.");
       }

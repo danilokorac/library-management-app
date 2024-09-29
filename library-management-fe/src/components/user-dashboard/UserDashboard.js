@@ -93,7 +93,9 @@ const UserDashboard = ({ user }) => {
           </tbody>
         </table>
       ) : (
-        <p>No borrowings found for this user.</p>
+        <p style={{ textAlign: "center" }}>
+          No borrowings found for this user.
+        </p>
       )}
     </div>
   );
