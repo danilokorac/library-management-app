@@ -37,7 +37,7 @@ const Navbar = ({ switchScreen, isLoggedIn, user, handleLogout }) => {
               View Profile
             </button>
             <br />
-            {true && (
+            {user?.role === "EMPLOYEE" && (
               <button
                 className="auth-btn admin-btn"
                 onClick={() => switchScreen("admin-panel")}

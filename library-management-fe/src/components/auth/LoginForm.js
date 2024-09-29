@@ -25,7 +25,22 @@ const LoginForm = ({ setUser, setIsLoggedIn, switchScreen }) => {
       const data = await response.json();
       localStorage.setItem("token", data.accessToken);
 
-      setUser({ username });
+      // Fetch user details after successful login
+      const authenticatedUserData = await fetch("/user/me", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${data.accessToken}`,
+        },
+      });
+
+      if (!authenticatedUserData.ok) {
+        throw new Error("Failed to fetch user details.");
+      }
+
+      const userData = await authenticatedUserData.json();
+      console.log("Fetched user data:", userData);
+
+      setUser(userData);
       setIsLoggedIn(true);
       switchScreen("books");
     } catch (error) {

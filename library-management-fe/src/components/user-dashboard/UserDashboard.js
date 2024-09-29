@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./UserDashboard.css"; // Assuming you'll have a CSS file for styling
+import apiClient from "../../api/axiosConfig";
 
 const UserDashboard = ({ user }) => {
   // State to hold user and borrowing data
-  const [userData, setUserData] = useState(null);
   const [borrowings, setBorrowings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,22 +11,12 @@ const UserDashboard = ({ user }) => {
   useEffect(() => {
     // Function to fetch the user borrowings and debt information
     const fetchBorrowings = async () => {
-      const token = localStorage.getItem("token");
       try {
-        const response = await axios.get(
-          `/borrowing/getAllBorrowingsAndDebtByUserUsername?username=${user.username}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const response = await apiClient.get(
+          `/borrowing/getAllBorrowingsAndDebtByUserUsername?username=${user.username}`
         );
         const borrowingsData = response.data;
 
-        if (borrowingsData.length > 0) {
-          // Extract user data from the first borrowing record
-          setUserData(borrowingsData[0].user);
-        }
         setBorrowings(borrowingsData);
       } catch (error) {
         console.error("Error fetching borrowings:", error);
@@ -53,26 +42,26 @@ const UserDashboard = ({ user }) => {
 
   return (
     <div className="user-dashboard">
-      {userData && (
+      {user && (
         <div className="user-profile">
           <h2>User Info</h2>
           <p>
-            <strong>Username:</strong> {userData.username}
+            <strong>Username:</strong> {user.username}
           </p>
           <p>
-            <strong>First Name:</strong> {userData.firstName}
+            <strong>First Name:</strong> {user.firstName}
           </p>
           <p>
-            <strong>Last Name:</strong> {userData.lastName}
+            <strong>Last Name:</strong> {user.lastName}
           </p>
           <p>
-            <strong>Email:</strong> {userData.email}
+            <strong>Email:</strong> {user.email}
           </p>
           <p>
-            <strong>Role:</strong> {userData.role}
+            <strong>Role:</strong> {user.role}
           </p>
           <p>
-            <strong>Membership Type:</strong> {userData.membershipType}
+            <strong>Membership Type:</strong> {user.membershipType}
           </p>
         </div>
       )}
