@@ -1,36 +1,10 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./BookCard.css";
 import BookCard from "./BookCard";
 
-const BookList = () => {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get("/book/getAllBooks");
-        setBooks(response.data);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchBooks();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
+const BookList = ({ books }) => {
+  if (books.length === 0) {
+    return <div>No books available.</div>;
   }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
     <div className="book-list">
       {books.map((book) => (

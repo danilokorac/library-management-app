@@ -1,7 +1,56 @@
-import React from "react";
 import "./Navbar.css";
 import libraryImage from "../../assets/images/library.jpg";
-const Navbar = ({ switchScreen, isLoggedIn, user, handleLogout }) => {
+const Navbar = ({
+  allBooks,
+  setDisplayedBooks,
+  switchScreen,
+  isLoggedIn,
+  user,
+  handleLogout,
+}) => {
+  // Filter and display books based on selection
+  const handlePopularClick = () => {
+    const sortedBooks = [...allBooks].sort((a, b) => a.quantity - b.quantity);
+    setDisplayedBooks(sortedBooks);
+  };
+
+  const handleTopRatedClick = () => {
+    const sortedBooks = [...allBooks].sort(
+      (a, b) => b.starRating - a.starRating
+    );
+    setDisplayedBooks(sortedBooks);
+  };
+
+  const handleCurrentlyAvailableClick = () => {
+    setDisplayedBooks(allBooks);
+  };
+
+  const handleGenreClick = (genre) => {
+    const filteredBooks = allBooks.filter((book) => book.bookGenre === genre);
+    setDisplayedBooks(filteredBooks);
+  };
+
+  const getTopGenres = () => {
+    const genreCount = {};
+
+    // Count occurrences of each genre
+    allBooks.forEach((book) => {
+      genreCount[book.bookGenre] = (genreCount[book.bookGenre] || 0) + 1;
+    });
+
+    // Convert to an array of [genre, count] pairs
+    const genreArray = Object.entries(genreCount);
+
+    // Sort by count in descending order and take the top 3
+    const sortedGenres = genreArray
+      .sort((a, b) => b[1] - a[1]) // Sort by count
+      .slice(0, 3); // Get top 3
+
+    return sortedGenres.map(([genre]) => genre); // Extract the genre names
+  };
+
+  const topGenres = getTopGenres();
+
   return (
     <div className="navbar">
       <img
@@ -11,15 +60,27 @@ const Navbar = ({ switchScreen, isLoggedIn, user, handleLogout }) => {
         onClick={() => switchScreen("books")}
       />
 
-      <button className="nav-btn">Popular</button>
-      <button className="nav-btn">Top Rated</button>
-      <button className="nav-btn">Currently Available</button>
+      <button className="nav-btn" onClick={handlePopularClick}>
+        Popular
+      </button>
+      <button className="nav-btn" onClick={handleTopRatedClick}>
+        Top Rated
+      </button>
+      <button className="nav-btn" onClick={handleCurrentlyAvailableClick}>
+        Currently Available
+      </button>
 
       <div className="genres">
         <h3>Top 3 Genres</h3>
-        <button className="genre-btn">Fiction</button>
-        <button className="genre-btn">Non-Fiction</button>
-        <button className="genre-btn">Fantasy</button>
+        {topGenres.map((genre, index) => (
+          <button
+            key={index}
+            className="genre-btn"
+            onClick={() => handleGenreClick(genre)}
+          >
+            {genre}
+          </button>
+        ))}
       </div>
 
       {/* Authentication buttons */}

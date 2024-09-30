@@ -14,6 +14,25 @@ function App() {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [allBooks, setAllBooks] = useState([]);
+  const [displayedBooks, setDisplayedBooks] = useState([]);
+
+  // Fetch all books
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await apiClient.get("/book/getAllBooks");
+        const data = response.data;
+        console.log(data);
+        setAllBooks(data);
+        setDisplayedBooks(data);
+      } catch (error) {
+        console.error("Error fetching books: ", error);
+      }
+    };
+    fetchBooks();
+  }, []);
+
   useEffect(() => {
     const fetchAuthenticatedUser = async () => {
       const token = localStorage.getItem("token");
@@ -49,11 +68,13 @@ function App() {
         isLoggedIn={isLoggedIn}
         user={user}
         handleLogout={handleLogout}
+        allBooks={allBooks}
+        setDisplayedBooks={setDisplayedBooks}
       />
       <div className="main-content">
         {activeScreen === "books" && (
           <>
-            <SearchBar /> <BookList />
+            <SearchBar /> <BookList books={displayedBooks} />
           </>
         )}
         {activeScreen === "register" && (
