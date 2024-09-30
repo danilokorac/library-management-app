@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../../api/axiosConfig";
-import "./AdminPanel.css"; // Ensure you have relevant styles
+import "./AdminPanel.css";
 import { formatToReadableDate } from "../../utils/dateUtils";
+import ModalComponent from "../common/ModalComponent";
 
 const AdminPanel = () => {
   const [selectedTable, setSelectedTable] = useState("Books"); // Default table to display
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Model state management
+  const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [currentItem, setCurrentItem] = useState(null);
+  const [updatedItem, setUpdatedItem] = useState({});
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,17 +81,90 @@ const AdminPanel = () => {
   };
 
   // Placeholder functions for Update and Delete actions
-  const handleUpdate = (itemId) => {
-    alert(`Update action for ${selectedTable} with ID: ${itemId}`);
+  const handleUpdate = (item) => {
+    setCurrentItem(item);
+    setUpdatedItem(item);
+    setUpdateModalOpen(true);
   };
 
-  const handleDelete = (itemId) => {
-    alert(`Delete action for ${selectedTable} with ID: ${itemId}`);
+  const handleDelete = (item) => {
+    console.log("Deleting item:", item);
+    setCurrentItem(item);
+    setDeleteModalOpen(true);
+  };
+
+  const handleUpdateConfirm = async () => {
+    try {
+      let endpoint = "";
+      switch (selectedTable) {
+        case "Books":
+          endpoint = `/book/updateBook?id=${currentItem.id}`;
+          break;
+        case "Users":
+          endpoint = `/user/updateUser?id=${currentItem.id}`;
+          break;
+        case "Borrowings":
+          endpoint = `/borrowing/updateBorrowing?id=${currentItem.id}`;
+          break;
+        default:
+          return;
+      }
+
+      const response = await apiClient.put(endpoint, updatedItem);
+
+      setData((previousData) =>
+        previousData.map((item) =>
+          item.id === currentItem.id ? response.data : item
+        )
+      );
+
+      setUpdateModalOpen(false);
+    } catch (error) {
+      console.error("Error updating item: ", error);
+      setError("Failed to update the item, please try again!");
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      let endpoint = "";
+      switch (selectedTable) {
+        case "Books":
+          endpoint = `/book/deleteBook?id=${currentItem.id}`;
+          break;
+        case "Users":
+          endpoint = `/user/deleteUser?id=${currentItem.id}`;
+          break;
+        case "Borrowings":
+          endpoint = `/borrowing/deleteBorrowing?id=${currentItem.id}`;
+          break;
+        default:
+          return;
+      }
+
+      await apiClient.delete(endpoint);
+
+      setData((previousData) =>
+        previousData.filter((item) => item.id !== currentItem.id)
+      );
+
+      setDeleteModalOpen(false);
+    } catch (error) {
+      console.error("Error deleting item: ", error);
+      setError("Failed to delete the item, please try again!");
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedItem((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
     <div className="admin-panel">
-      {/* Top buttons for selecting different tables */}
       <div className="admin-panel-buttons">
         <button onClick={() => handleTableSwitch("Books")}>Books</button>
         <button onClick={() => handleTableSwitch("Users")}>Users</button>
@@ -93,17 +173,15 @@ const AdminPanel = () => {
         </button>
       </div>
 
-      {/* Loading and error states */}
       {loading ? (
         <div>Loading {selectedTable} data...</div>
       ) : error ? (
         <div className="error">{error}</div>
       ) : (
-        // Dynamic table based on selected data
         <table className="admin-panel-table">
           <thead>
             <tr>
-              {selectedTable === "Borrowings" ? (
+              {selectedTable === "Borrowings" && (
                 <>
                   <th>Username</th>
                   <th>Book Title</th>
@@ -112,7 +190,8 @@ const AdminPanel = () => {
                   <th>Comments</th>
                   <th>Debt</th>
                 </>
-              ) : selectedTable === "Users" ? (
+              )}
+              {selectedTable === "Users" && (
                 <>
                   <th>Username</th>
                   <th>First Name</th>
@@ -121,7 +200,8 @@ const AdminPanel = () => {
                   <th>Role</th>
                   <th>Membership Type</th>
                 </>
-              ) : (
+              )}
+              {selectedTable === "Books" && (
                 <>
                   <th>Book Title</th>
                   <th>Genre</th>
@@ -130,23 +210,23 @@ const AdminPanel = () => {
                   <th>Quantity</th>
                 </>
               )}
-              <th>Actions</th> {/* Column for Update/Delete buttons */}
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentItems.map((item, index) => (
               <tr key={index}>
-                {selectedTable === "Borrowings" ? (
+                {selectedTable === "Borrowings" && (
                   <>
-                    <td>{item.user?.username || "N/A"}</td>{" "}
-                    {/* Accessing username */}
-                    <td>{item.book?.title || "N/A"}</td> {/* Accessing title */}
+                    <td>{item.user?.username || "N/A"}</td>
+                    <td>{item.book?.title || "N/A"}</td>
                     <td>{formatToReadableDate(item.borrowStartDate)}</td>
                     <td>{formatToReadableDate(item.borrowEndDate)}</td>
                     <td>{item.comments}</td>
                     <td>{item.debtAmount}</td>
                   </>
-                ) : selectedTable === "Users" ? (
+                )}
+                {selectedTable === "Users" && (
                   <>
                     <td>{item.username}</td>
                     <td>{item.firstName}</td>
@@ -155,10 +235,10 @@ const AdminPanel = () => {
                     <td>{item.role}</td>
                     <td>{item.membershipType}</td>
                   </>
-                ) : (
+                )}
+                {selectedTable === "Books" && (
                   <>
-                    <td>{item.title}</td>{" "}
-                    {/* Assuming 'title' exists in book data */}
+                    <td>{item.title}</td>
                     <td>{item.bookGenre}</td>
                     <td>{item.starRating} ⭐</td>
                     <td>{item.stock}</td>
@@ -168,13 +248,13 @@ const AdminPanel = () => {
                 <td>
                   <button
                     className="update-button"
-                    onClick={() => handleUpdate(item.id)}
+                    onClick={() => handleUpdate(item)}
                   >
                     Update
                   </button>
                   <button
                     className="delete-button"
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item)}
                   >
                     Delete
                   </button>
@@ -197,6 +277,222 @@ const AdminPanel = () => {
           Next
         </button>
       </div>
+
+      {/* Modal components */}
+      {isUpdateModalOpen && (
+        <ModalComponent
+          isOpen={isUpdateModalOpen}
+          onClose={() => setUpdateModalOpen(false)}
+          title={`Update ${selectedTable.slice(0, -1)}: ${
+            currentItem.title ||
+            currentItem.username ||
+            currentItem.user.username + " borrowing"
+          }`}
+          onConfirm={handleUpdateConfirm}
+        >
+          <form>
+            {/* Input fields for item properties */}
+            {selectedTable === "Books" && (
+              <>
+                <label>
+                  Title:
+                  <input
+                    type="text"
+                    name="title"
+                    value={updatedItem.title || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Genre:
+                  <input
+                    type="text"
+                    name="bookGenre"
+                    value={updatedItem.bookGenre || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Stock:
+                  <input
+                    type="text"
+                    name="stock"
+                    value={updatedItem.stock || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Quantity:
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={updatedItem.quantity || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Star Rating:
+                  <input
+                    type="number"
+                    name="starRating"
+                    value={updatedItem.starRating || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+              </>
+            )}
+            {selectedTable === "Users" && (
+              <>
+                <label>
+                  First Name:
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={updatedItem.firstName || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Last Name:
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={updatedItem.lastName || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Email:
+                  <input
+                    type="email"
+                    name="email"
+                    value={updatedItem.email || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Role:
+                  <input
+                    type="text"
+                    name="role"
+                    value={updatedItem.role || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Membership Type:
+                  <input
+                    type="text"
+                    name="membershipType"
+                    value={updatedItem.membershipType || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+              </>
+            )}
+            {selectedTable === "Borrowings" && (
+              <>
+                <label>
+                  Username:
+                  <input
+                    type="text"
+                    name="username"
+                    value={updatedItem.user?.username || ""}
+                    onChange={handleInputChange}
+                    readOnly // Optional, if we don't want to allow changing the username
+                  />
+                </label>
+                <br />
+                <label>
+                  Book Title:
+                  <input
+                    type="text"
+                    name="bookTitle"
+                    value={updatedItem.book?.title || ""}
+                    onChange={handleInputChange}
+                    readOnly // Optional, if we don't want to allow changing the book title
+                  />
+                </label>
+                <br />
+                <label>
+                  Borrow Date:
+                  <input
+                    type="date"
+                    name="borrowStartDate"
+                    value={updatedItem.borrowStartDate || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Return Date:
+                  <input
+                    type="date"
+                    name="borrowEndDate"
+                    value={updatedItem.borrowEndDate || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+                <br />
+                <label>
+                  Comments:
+                  <textarea
+                    name="comments"
+                    value={updatedItem.comments || ""}
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <br />
+                <label>
+                  Debt:
+                  <input
+                    type="number"
+                    name="debtAmount"
+                    value={updatedItem.debtAmount || ""}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </label>
+              </>
+            )}
+          </form>
+        </ModalComponent>
+      )}
+
+      {isDeleteModalOpen && (
+        <ModalComponent
+          isOpen={isDeleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          title={`Delete ${selectedTable.slice(0, -1)}: ${
+            currentItem.title || currentItem.username
+          }`}
+          onConfirm={handleDeleteConfirm}
+        >
+          <div>
+            Are you sure you want to delete this {selectedTable.slice(0, -1)}?
+          </div>
+        </ModalComponent>
+      )}
     </div>
   );
 };

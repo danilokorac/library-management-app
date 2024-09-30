@@ -130,3 +130,47 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+/* Form styles */
+form {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+}
+
+/* Label styles */
+label {
+  margin-bottom: 10px; /* Space below each label */
+}
+
+/* Input field styles */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+textarea {
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  padding: 8px; /* Padding inside inputs */
+  font-size: 1em; /* Font size */
+  margin-bottom: 10px; /* Space below each input */
+}
+
+/* Textarea specific styles */
+textarea {
+  resize: vertical; /* Allow vertical resizing only */
+}
+
+/* Button styles */
+button {
+  padding: 10px; /* Padding for buttons */
+  background-color: #007bff; /* Button color */
+  color: white; /* Text color */
+  border: none; /* No border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Transition effect */
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker color on hover */
+}

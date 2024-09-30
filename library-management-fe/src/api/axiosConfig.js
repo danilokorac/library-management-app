@@ -20,4 +20,19 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Interceptor to handle response errors
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      console.error("API Error:", error.response.data);
+    } else if (error.request) {
+      console.error("No response from API:", error.request);
+    } else {
+      console.error("Error:", error.message);
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default apiClient;
