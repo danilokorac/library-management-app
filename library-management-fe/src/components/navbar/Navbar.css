@@ -1,0 +1,126 @@
+.navbar {
+  width: 250px;
+  height: 100vh;
+  background-color: #596169;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  border-right: 2px solid #bdc3c7;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  min-width: 250px;
+}
+
+.genres h3 {
+  text-align: center;
+  color: white;
+  margin: 2px;
+}
+
+.library-logo {
+  width: 150px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 125px;
+}
+
+.nav-btn {
+  width: 75%;
+  padding: 12px;
+  margin: 8px 0;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.nav-btn:hover {
+  background-color: #2980b9;
+}
+
+.genres {
+  margin-top: 60px;
+  width: 100%;
+  text-align: center;
+}
+
+.genre-btn {
+  width: 65%;
+  padding: 15px;
+  margin: 4px 0;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.genre-btn:hover {
+  background-color: #1a5a8a;
+}
+
+.auth-buttons {
+  margin-top: auto;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+  flex-direction: column;
+}
+
+.auth-btn {
+  width: 75%;
+  padding: 12px;
+  margin: 5px 0;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.auth-btn:hover {
+  background-color: #c0392b;
+}
+
+.profile-btn,
+.admin-btn {
+  width: 50%;
+  background-color: #8b2b20;
+  margin: 3px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    width: 200px;
+  }
+
+  .library-logo {
+    width: 120px;
+  }
+
+  .nav-btn,
+  .genre-btn,
+  .auth-btn {
+    padding: 10px;
+    margin: 5px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    width: 100%;
+    height: auto;
+    padding-bottom: 20px;
+  }
+
+  .library-logo {
+    width: 100px;
+  }
+}

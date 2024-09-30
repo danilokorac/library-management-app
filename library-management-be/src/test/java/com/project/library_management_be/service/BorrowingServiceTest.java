@@ -1,20 +1,14 @@
 package com.project.library_management_be.service;
 
-import com.project.library_management_be.dto.BookDTO;
 import com.project.library_management_be.dto.BorrowingDTO;
-import com.project.library_management_be.dto.UserDTO;
-import com.project.library_management_be.model.Book;
 import com.project.library_management_be.model.Borrowing;
-import com.project.library_management_be.model.User;
 import com.project.library_management_be.repository.BorrowingRepository;
 import com.project.library_management_be.util.BorrowingMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -39,11 +33,11 @@ class BorrowingServiceTest {
     @Test
     void testGetAllBorrowingsAndDebtByUserId() {
         // Arrange
-        Long userId = 1L;
+        String username = "username";
         Borrowing borrowing = new Borrowing();
         borrowing.setBorrowEndDate(LocalDate.of(2022, 1, 15));
 
-        when(borrowingRepository.findByUserId(userId)).thenReturn(Arrays.asList(borrowing));
+        when(borrowingRepository.findByUserUsername(username)).thenReturn(Arrays.asList(borrowing));
 
         BorrowingDTO expectedBorrowingDTO = new BorrowingDTO();
         expectedBorrowingDTO.setDebtAmount(100.0);
@@ -51,7 +45,7 @@ class BorrowingServiceTest {
         when(borrowingMapper.borrowingToBorrowingDTO(borrowing)).thenReturn(expectedBorrowingDTO);
 
         // Act
-        List<BorrowingDTO> result = borrowingService.getAllBorrowingsAndDebtByUserId(userId);
+        List<BorrowingDTO> result = borrowingService.getAllBorrowingsAndDebtByUserUsername(username);
 
         // Assert
         assertNotNull(result);

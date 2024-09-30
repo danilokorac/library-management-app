@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class BorrowingDTO {
-
+    private Long id;
     private UserDTO user;
     private BookDTO book;
     private LocalDate borrowStartDate;

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class BookDTO {
-
+    private Long id;
     private String title;
     private Genre bookGenre;
     private Double starRating;
